@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ScenarioTestModel {
 	
 	public static final String SEQUENCE_NAME = "scenario_test_sequence";
-	
+
 	@Id
 	private Long id;
 	private String user;
