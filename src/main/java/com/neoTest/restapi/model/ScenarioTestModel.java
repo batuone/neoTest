@@ -19,5 +19,5 @@ public class ScenarioTestModel {
 	private String user;
 	private String scenario;
 	private LocalDateTime date;
-	
+	private int xCoordinate;
 }
