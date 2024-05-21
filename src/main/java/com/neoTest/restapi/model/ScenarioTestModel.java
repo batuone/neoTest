@@ -20,4 +20,5 @@ public class ScenarioTestModel {
 	private String scenario;
 	private LocalDateTime date;
 	private int xCoordinate;
+	private int deneme;
 }
