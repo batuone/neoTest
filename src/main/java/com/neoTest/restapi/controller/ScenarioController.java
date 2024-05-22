@@ -28,7 +28,7 @@ public class ScenarioController {
 	@Autowired
 	SequenceGeneratorService seqGeneratorService;
 	
-	@PostMapping("/test/create")
+	@PostMapping(value="/test/create")
 	public ScenarioTestModel create(@RequestBody ScenarioTestModel newScenarioModel) {
 		newScenarioModel.setDate(LocalDateTime.now());
 		newScenarioModel.setId(seqGeneratorService.generateSequence(ScenarioTestModel.SEQUENCE_NAME));
