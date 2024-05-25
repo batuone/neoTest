@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.neoTest.restapi.model.request.IdRequest;
+import com.neoTest.restapi.model.request.ProjectIdRequest;
 import com.neoTest.restapi.model.request.ScenarioIdRequest;
-import com.neoTest.restapi.model.request.ScenarioProjectIdRequest;
-import com.neoTest.restapi.model.request.ScenarioScenarioIdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,12 +35,12 @@ public class ScenarioTestController {
 	}
 	
 	@PostMapping("/get-projectId")
-	public List<ScenarioTestModel> getScenarioByProjectId(@RequestBody ScenarioProjectIdRequest request) {
+	public List<ScenarioTestModel> getScenarioByProjectId(@RequestBody ProjectIdRequest request) {
 		return scenarioTestDAO.getByProjectId(request.getProjectId());
 	}
 
 	@PostMapping("/get-scenarioId")
-	public ScenarioTestModel getScenarioByScenarioId(@RequestBody ScenarioScenarioIdRequest request) {
+	public ScenarioTestModel getScenarioByScenarioId(@RequestBody ScenarioIdRequest request) {
 		return scenarioTestDAO.getByScenarioId(request.getScenarioId());
 	}
 
@@ -50,7 +50,7 @@ public class ScenarioTestController {
 	}
 	
 	@PostMapping("/delete/Id")
-	public void deleteById(@RequestBody ScenarioIdRequest request) {
+	public void deleteById(@RequestBody IdRequest request) {
 		Optional<ScenarioTestModel> scenarioObj = scenarioTestDAO.findById(request.getId());
         scenarioObj.ifPresent(c -> scenarioTestDAO.delete(c));
 	}

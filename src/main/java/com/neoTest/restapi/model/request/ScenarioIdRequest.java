@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ScenarioIdRequest {
 
-    Long id;
+    int scenarioId;
 
 }

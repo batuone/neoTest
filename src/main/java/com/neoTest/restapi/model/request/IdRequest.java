@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ScenarioProjectIdRequest {
+public class IdRequest {
 
-    String projectId;
+    long id;
 
 }
