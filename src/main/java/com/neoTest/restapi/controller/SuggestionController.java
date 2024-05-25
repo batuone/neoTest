@@ -1,6 +1,7 @@
 package com.neoTest.restapi.controller;
 
 import com.neoTest.restapi.dao.SuggestionDAO;
+import com.neoTest.restapi.model.ScenarioTestModel;
 import com.neoTest.restapi.model.SuggestionModel;
 import com.neoTest.restapi.model.request.ProjectIdRequest;
 import com.neoTest.restapi.service.SequenceGeneratorService;
@@ -35,5 +36,9 @@ public class SuggestionController {
 		return suggestionDAO.getByProjectId(request.getProjectId());
 	}
 
-	
+	@PostMapping("/update")
+	public SuggestionModel update(@RequestBody SuggestionModel suggestionModel) {
+		return suggestionDAO.save(suggestionModel);
+	}
+
 }

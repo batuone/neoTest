@@ -19,5 +19,6 @@ public class SuggestionModel {
 	private LocalDateTime date;
 	private String projectId;
 	private String scenarioText;
+	private Boolean isAccepted;
 
 }
