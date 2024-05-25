@@ -1,7 +1,12 @@
 package com.neoTest.restapi.controller;
 
+import com.neoTest.restapi.dao.ScenarioProdDAO;
 import com.neoTest.restapi.dao.ScenarioTestDAO;
+import com.neoTest.restapi.model.ScenarioProdModel;
 import com.neoTest.restapi.model.ScenarioTestModel;
+import com.neoTest.restapi.model.request.ScenarioIdRequest;
+import com.neoTest.restapi.model.request.ScenarioProjectIdRequest;
+import com.neoTest.restapi.model.request.ScenarioScenarioIdRequest;
 import com.neoTest.restapi.service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,47 +20,37 @@ import java.util.Optional;
 public class ScenarioProdController {
 
 	@Autowired
-	ScenarioTestDAO scenarioTestDAO;
-	
+	ScenarioProdDAO scenarioProdDAO;
+
 	@Autowired
 	SequenceGeneratorService seqGeneratorService;
-	
+
 	@PostMapping(value="/create")
-	public ScenarioTestModel create(@RequestBody ScenarioTestModel testModel) {
-		testModel.setDate(LocalDateTime.now());
-		testModel.setId(seqGeneratorService.generateSequence(ScenarioTestModel.SEQUENCE_NAME));
-		return scenarioTestDAO.save(testModel);
+	public ScenarioProdModel create(@RequestBody ScenarioProdModel prodModel) {
+		prodModel.setDate(LocalDateTime.now());
+		prodModel.setId(seqGeneratorService.generateSequence(ScenarioProdModel.SEQUENCE_NAME));
+		return scenarioProdDAO.save(prodModel);
 	}
-	
-	@GetMapping("/read")
-	public List<ScenarioTestModel> read(){
-		return scenarioTestDAO.findAll();
+
+	@PostMapping("/get-projectId")
+	public List<ScenarioProdModel> getScenarioByProjectId(@RequestBody ScenarioProjectIdRequest request) {
+		return scenarioProdDAO.getByProjectId(request.getProjectId());
 	}
-	
-	@GetMapping("/read/{id}")
-	public ScenarioTestModel read(@PathVariable Long id) {
-		Optional<ScenarioTestModel> employeeObj = scenarioTestDAO.findById(id);
-		if(employeeObj.isPresent()) {
-			return employeeObj.get();
-		}else {
-			throw new RuntimeException("Employee not found with id "+id);
-		}
+
+	@PostMapping("/get-scenarioId")
+	public ScenarioProdModel getScenarioByScenarioId(@RequestBody ScenarioScenarioIdRequest request) {
+		return scenarioProdDAO.getByScenarioId(request.getScenarioId());
 	}
-	
-	@PutMapping("/update")
-	public ScenarioTestModel update(@RequestBody ScenarioTestModel modifiedEmployeeObject) {
-		return scenarioTestDAO.save(modifiedEmployeeObject);
+
+	@PostMapping("/update")
+	public ScenarioProdModel update(@RequestBody ScenarioProdModel prodModel) {
+		return scenarioProdDAO.save(prodModel);
 	}
-	
-	@DeleteMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
-		Optional<ScenarioTestModel> employeeObj = scenarioTestDAO.findById(id);
-		if(employeeObj.isPresent()) {
-			scenarioTestDAO.delete(employeeObj.get());
-			return "Employee deleted with id "+id;
-		}else {
-			throw new RuntimeException("Employee not found for id "+id);
-		}
+
+	@PostMapping("/delete/Id")
+	public void deleteById(@RequestBody ScenarioIdRequest request) {
+		Optional<ScenarioProdModel> scenarioObj = scenarioProdDAO.findById(request.getId());
+		scenarioObj.ifPresent(c -> scenarioProdDAO.delete(c));
 	}
 	
 }

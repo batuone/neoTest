@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ScenarioTestProjectIdRequest {
+public class ScenarioProjectIdRequest {
 
     String projectId;
 

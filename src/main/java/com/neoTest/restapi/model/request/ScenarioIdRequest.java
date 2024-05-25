@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ScenarioTestScenarioIdRequest {
+public class ScenarioIdRequest {
 
-    int scenarioId;
+    Long id;
 
 }

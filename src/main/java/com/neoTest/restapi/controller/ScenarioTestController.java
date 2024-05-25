@@ -4,14 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import com.neoTest.restapi.model.request.ScenarioTestIdRequest;
-import com.neoTest.restapi.model.request.ScenarioTestProjectIdRequest;
-import com.neoTest.restapi.model.request.ScenarioTestScenarioIdRequest;
+import com.neoTest.restapi.model.request.ScenarioIdRequest;
+import com.neoTest.restapi.model.request.ScenarioProjectIdRequest;
+import com.neoTest.restapi.model.request.ScenarioScenarioIdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,12 +35,12 @@ public class ScenarioTestController {
 	}
 	
 	@PostMapping("/get-projectId")
-	public List<ScenarioTestModel> getScenarioByProjectId(@RequestBody ScenarioTestProjectIdRequest request) {
+	public List<ScenarioTestModel> getScenarioByProjectId(@RequestBody ScenarioProjectIdRequest request) {
 		return scenarioTestDAO.getByProjectId(request.getProjectId());
 	}
 
 	@PostMapping("/get-scenarioId")
-	public ScenarioTestModel getScenarioByScenarioId(@RequestBody ScenarioTestScenarioIdRequest request) {
+	public ScenarioTestModel getScenarioByScenarioId(@RequestBody ScenarioScenarioIdRequest request) {
 		return scenarioTestDAO.getByScenarioId(request.getScenarioId());
 	}
 
@@ -53,7 +50,7 @@ public class ScenarioTestController {
 	}
 	
 	@PostMapping("/delete/Id")
-	public void deleteById(@RequestBody ScenarioTestIdRequest request) {
+	public void deleteById(@RequestBody ScenarioIdRequest request) {
 		Optional<ScenarioTestModel> scenarioObj = scenarioTestDAO.findById(request.getId());
         scenarioObj.ifPresent(c -> scenarioTestDAO.delete(c));
 	}
