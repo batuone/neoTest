@@ -30,5 +30,5 @@ public class ScenarioTestModel {
 	private String sessionId;
 	private String projectId;
 	private int scenarioId;
-
+	private String scenarioText;
 }
