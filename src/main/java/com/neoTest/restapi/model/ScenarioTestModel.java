@@ -21,7 +21,7 @@ public class ScenarioTestModel {
 	private LocalDateTime date;
 	private String elementType;
 	private String elementId;
-	private long elementValue;
+	private String elementValue;
 	private String elementClass;
 	private String url;
 	private String pathX;
