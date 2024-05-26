@@ -8,5 +8,5 @@ import lombok.Setter;
 public class ScenarioIdRequest {
 
     int scenarioId;
-
+    String projectId;
 }

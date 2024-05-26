@@ -4,6 +4,7 @@ import com.neoTest.restapi.dao.ScenarioCountDAO;
 import com.neoTest.restapi.dao.ScenarioProdDAO;
 import com.neoTest.restapi.model.ScenarioCountModel;
 import com.neoTest.restapi.model.ScenarioProdModel;
+import com.neoTest.restapi.model.ScenarioTestModel;
 import com.neoTest.restapi.model.request.IdRequest;
 import com.neoTest.restapi.model.request.ProjectIdRequest;
 import com.neoTest.restapi.model.request.ScenarioIdRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/prod")
@@ -43,8 +45,10 @@ public class ScenarioProdController {
 	}
 
 	@PostMapping("/get-scenarioId")
-	public ScenarioProdModel getScenarioByScenarioId(@RequestBody ScenarioIdRequest request) {
-		return scenarioProdDAO.getByScenarioId(request.getScenarioId());
+	public List<ScenarioProdModel> getByProjectIdAndScenarioId(@RequestBody ScenarioIdRequest request) {
+		List<ScenarioProdModel> scenarioList = scenarioProdDAO.getByScenarioId(request.getScenarioId());
+		return scenarioList.stream().filter(c -> c.getProjectId().equals(request.getProjectId()))
+				.collect(Collectors.toList());
 	}
 
 	@PostMapping("/update")

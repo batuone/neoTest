@@ -3,6 +3,7 @@ package com.neoTest.restapi.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.neoTest.restapi.dao.ScenarioCountDAO;
 import com.neoTest.restapi.model.ScenarioCountModel;
@@ -47,8 +48,10 @@ public class ScenarioTestController {
 	}
 
 	@PostMapping("/get-scenarioId")
-	public ScenarioTestModel getScenarioByScenarioId(@RequestBody ScenarioIdRequest request) {
-		return scenarioTestDAO.getByScenarioId(request.getScenarioId());
+	public List<ScenarioTestModel> getByProjectIdAndScenarioId(@RequestBody ScenarioIdRequest request) {
+		List<ScenarioTestModel> scenarioList = scenarioTestDAO.getByScenarioId(request.getScenarioId());
+		return scenarioList.stream().filter(c -> c.getProjectId().equals(request.getProjectId()))
+				.collect(Collectors.toList());
 	}
 
 	@PostMapping("/update")
