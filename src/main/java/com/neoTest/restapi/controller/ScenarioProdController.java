@@ -1,6 +1,8 @@
 package com.neoTest.restapi.controller;
 
+import com.neoTest.restapi.dao.ScenarioCountDAO;
 import com.neoTest.restapi.dao.ScenarioProdDAO;
+import com.neoTest.restapi.model.ScenarioCountModel;
 import com.neoTest.restapi.model.ScenarioProdModel;
 import com.neoTest.restapi.model.request.IdRequest;
 import com.neoTest.restapi.model.request.ProjectIdRequest;
@@ -19,7 +21,8 @@ public class ScenarioProdController {
 
 	@Autowired
 	ScenarioProdDAO scenarioProdDAO;
-
+	@Autowired
+	ScenarioCountDAO scenarioCountDAO;
 	@Autowired
 	SequenceGeneratorService seqGeneratorService;
 
@@ -27,6 +30,10 @@ public class ScenarioProdController {
 	public ScenarioProdModel create(@RequestBody ScenarioProdModel prodModel) {
 		prodModel.setDate(LocalDateTime.now());
 		prodModel.setId(seqGeneratorService.generateSequence(ScenarioProdModel.SEQUENCE_NAME));
+
+		ScenarioCountModel scenarioCountModel = scenarioCountDAO.getByUrl(prodModel.getUrl());
+		prodModel.setScenarioId(scenarioCountModel.getCount());
+
 		return scenarioProdDAO.save(prodModel);
 	}
 

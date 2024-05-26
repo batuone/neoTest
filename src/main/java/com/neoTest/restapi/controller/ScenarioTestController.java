@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.neoTest.restapi.dao.ScenarioCountDAO;
+import com.neoTest.restapi.model.ScenarioCountModel;
 import com.neoTest.restapi.model.request.IdRequest;
 import com.neoTest.restapi.model.request.ProjectIdRequest;
 import com.neoTest.restapi.model.request.ScenarioIdRequest;
@@ -23,7 +25,8 @@ public class ScenarioTestController {
 
 	@Autowired
 	ScenarioTestDAO scenarioTestDAO;
-	
+	@Autowired
+	ScenarioCountDAO scenarioCountDAO;
 	@Autowired
 	SequenceGeneratorService seqGeneratorService;
 	
@@ -31,6 +34,10 @@ public class ScenarioTestController {
 	public ScenarioTestModel create(@RequestBody ScenarioTestModel testModel) {
 		testModel.setDate(LocalDateTime.now());
 		testModel.setId(seqGeneratorService.generateSequence(ScenarioTestModel.SEQUENCE_NAME));
+
+		ScenarioCountModel scenarioCountModel = scenarioCountDAO.getByUrl(testModel.getUrl());
+		testModel.setScenarioId(scenarioCountModel.getCount());
+
 		return scenarioTestDAO.save(testModel);
 	}
 	
