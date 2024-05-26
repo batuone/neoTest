@@ -36,7 +36,7 @@ public class ScenarioTestController {
 		testModel.setId(seqGeneratorService.generateSequence(ScenarioTestModel.SEQUENCE_NAME));
 
 		ScenarioCountModel scenarioCountModel = scenarioCountDAO.getByUrl(testModel.getUrl());
-		testModel.setScenarioId(scenarioCountModel.getCount());
+		testModel.setScenarioId(scenarioCountModel != null ? scenarioCountModel.getCount() :0);
 
 		return scenarioTestDAO.save(testModel);
 	}
