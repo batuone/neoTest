@@ -20,4 +20,5 @@ public class ScenarioCountModel {
 	private String projectId;
 	private Boolean isOpen;
 	private int count;
+	private String env;
 }

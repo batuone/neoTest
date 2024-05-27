@@ -6,10 +6,9 @@ import com.neoTest.restapi.model.request.ScenarioUrlRequest;
 import com.neoTest.restapi.model.response.CheckScenarioOpenResponse;
 import com.neoTest.restapi.service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/count")
@@ -50,6 +49,16 @@ public class ScenarioCountController {
 		ScenarioCountModel response = scenarioCountDAO.getByUrl(request.getUrl());
 		response.setIsOpen(Boolean.FALSE);
 		return scenarioCountDAO.save(response);
+	}
+
+	@GetMapping("/get/{url}")
+	public ScenarioCountModel read(@PathVariable String url) {
+		Optional<ScenarioCountModel> model = scenarioCountDAO.getParameterCountByUrl(url);
+		if(model.isPresent()) {
+			return model.get();
+		}else {
+			throw new RuntimeException("url not found with "+ url);
+		}
 	}
 
 
