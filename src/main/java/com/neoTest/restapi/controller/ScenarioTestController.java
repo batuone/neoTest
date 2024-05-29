@@ -10,6 +10,7 @@ import com.neoTest.restapi.model.ScenarioCountModel;
 import com.neoTest.restapi.model.request.IdRequest;
 import com.neoTest.restapi.model.request.ProjectIdRequest;
 import com.neoTest.restapi.model.request.ScenarioIdRequest;
+import com.neoTest.restapi.model.response.ScenarioIdListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class ScenarioTestController {
 	ScenarioCountDAO scenarioCountDAO;
 	@Autowired
 	SequenceGeneratorService seqGeneratorService;
-	
+
 	@PostMapping(value="/create")
 	public ScenarioTestModel create(@RequestBody ScenarioTestModel testModel) {
 		testModel.setDate(LocalDateTime.now());
@@ -41,7 +42,7 @@ public class ScenarioTestController {
 
 		return scenarioTestDAO.save(testModel);
 	}
-	
+
 	@PostMapping("/get-projectId")
 	public List<ScenarioTestModel> getScenarioByProjectId(@RequestBody ProjectIdRequest request) {
 		return scenarioTestDAO.getByProjectId(request.getProjectId());
@@ -49,9 +50,7 @@ public class ScenarioTestController {
 
 	@PostMapping("/get-scenarioId")
 	public List<ScenarioTestModel> getByProjectIdAndScenarioId(@RequestBody ScenarioIdRequest request) {
-		List<ScenarioTestModel> scenarioList = scenarioTestDAO.getByScenarioId(request.getScenarioId());
-		return scenarioList.stream().filter(c -> c.getProjectId().equals(request.getProjectId()))
-				.collect(Collectors.toList());
+		return scenarioTestDAO.getByScenarioIdAndProjectId(request.getScenarioId(), request.getProjectId());
 	}
 
 	@PostMapping("/update")
@@ -64,5 +63,15 @@ public class ScenarioTestController {
 		Optional<ScenarioTestModel> scenarioObj = scenarioTestDAO.findById(request.getId());
         scenarioObj.ifPresent(c -> scenarioTestDAO.delete(c));
 	}
-	
+
+	@PostMapping("/get/scenario/projectId")
+	public ScenarioIdListResponse getScenarioIdByProjectId(@RequestBody ProjectIdRequest request) {
+		List<ScenarioTestModel> scenarioList = scenarioTestDAO.getByProjectId(request.getProjectId());
+		List<Integer> scenarioIdList = scenarioList.stream().map(ScenarioTestModel::getScenarioId)
+				.distinct().collect(Collectors.toList());
+		ScenarioIdListResponse response = new ScenarioIdListResponse();
+		response.setScenarioIdList(scenarioIdList);
+		return  response;
+	}
+
 }

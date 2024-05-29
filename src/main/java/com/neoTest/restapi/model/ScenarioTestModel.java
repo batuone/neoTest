@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Document(collection = "scenario_test")
 public class ScenarioTestModel {
-	
+
 	public static final String SEQUENCE_NAME = "scenario_test_sequence";
 
 	@Id
@@ -31,4 +31,5 @@ public class ScenarioTestModel {
 	private String projectId;
 	private int scenarioId;
 	private String scenarioText;
+
 }

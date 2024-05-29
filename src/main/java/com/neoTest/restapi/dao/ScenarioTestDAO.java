@@ -11,4 +11,6 @@ import java.util.List;
 public interface ScenarioTestDAO extends MongoRepository<ScenarioTestModel, Long> {
     List<ScenarioTestModel> getByProjectId(String projectId);
     List<ScenarioTestModel> getByScenarioId(int scenarioId);
+    List<ScenarioTestModel> getByScenarioIdAndProjectId(int scenarioId, String projectId);
+    List<ScenarioTestModel> getByScenarioIdAndProjectIdAndUrl(int scenarioId, String projectId, String url);
 }
