@@ -1,9 +1,11 @@
 package com.neoTest.restapi.controller;
 
 import com.neoTest.restapi.dao.ScenarioCountDAO;
+import com.neoTest.restapi.dao.ScenarioProdDAO;
 import com.neoTest.restapi.dao.ScenarioTestDAO;
 import com.neoTest.restapi.model.ScenarioCountModel;
 import com.neoTest.restapi.model.ScenarioTestModel;
+import com.neoTest.restapi.model.ScenarioProdModel;
 import com.neoTest.restapi.model.request.ScenarioUrlRequest;
 import com.neoTest.restapi.model.response.CheckScenarioOpenResponse;
 import com.neoTest.restapi.service.RestCallerService;
@@ -23,6 +25,8 @@ public class ScenarioCountController {
     ScenarioCountDAO scenarioCountDAO;
     @Autowired
     ScenarioTestDAO scenarioTestDAO;
+    @Autowired
+    ScenarioProdDAO scenarioProdDAO;
     @Autowired
     SequenceGeneratorService seqGeneratorService;
     @Autowired
@@ -61,13 +65,17 @@ public class ScenarioCountController {
             response.setIsOpen(Boolean.FALSE);
             ScenarioCountModel saveModel = scenarioCountDAO.save(response);
 
-            List<ScenarioTestModel> testModelList =
-                    scenarioTestDAO.getByScenarioIdAndProjectIdAndUrl(response.getCount(),
-                            response.getProjectId(), response.getUrl());
             if (response.getEnv().equals("test")) {
+                List<ScenarioTestModel> testModelList =
+                        scenarioTestDAO.getByScenarioIdAndProjectIdAndUrl(response.getCount(),
+                                response.getProjectId(), response.getUrl());
                 aiService.createTestScenarios(testModelList);
             } else if (response.getEnv().equals("prod")) {
-                aiService.createProdScenarios(testModelList);
+                List<ScenarioProdModel> prodModelList =
+                        scenarioProdDAO.getByScenarioIdAndProjectIdAndUrl(response.getCount(),
+                                response.getProjectId(), response.getUrl());
+
+                aiService.createProdScenarios(prodModelList);
             }
 
             return saveModel;

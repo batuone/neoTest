@@ -20,5 +20,6 @@ public class SuggestionModel {
 	private String projectId;
 	private String scenarioText;
 	private Boolean isAccepted;
+	private int scenarioId;
 
 }

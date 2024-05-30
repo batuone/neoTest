@@ -3,6 +3,7 @@ package com.neoTest.restapi.controller;
 import com.neoTest.restapi.dao.SuggestionDAO;
 import com.neoTest.restapi.model.ScenarioTestModel;
 import com.neoTest.restapi.model.SuggestionModel;
+import com.neoTest.restapi.model.request.IdRequest;
 import com.neoTest.restapi.model.request.ProjectIdRequest;
 import com.neoTest.restapi.service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/suggestion")
@@ -39,6 +41,20 @@ public class SuggestionController {
 	@PostMapping("/update")
 	public SuggestionModel update(@RequestBody SuggestionModel suggestionModel) {
 		return suggestionDAO.save(suggestionModel);
+	}
+
+	@PostMapping("/update")
+	public void update(@RequestBody IdRequest idRequest) {
+		Optional<SuggestionModel> model = suggestionDAO.findById(idRequest.getId());
+		if(!model.isPresent())
+		{
+			return;
+		}
+		model.get().setIsAccepted(Boolean.TRUE);
+		suggestionDAO.save(model.get());
+
+
+
 	}
 
 }

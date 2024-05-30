@@ -11,4 +11,5 @@ import java.util.List;
 public interface ScenarioProdDAO extends MongoRepository<ScenarioProdModel, Long> {
     List<ScenarioProdModel> getByProjectId(String projectId);
     List<ScenarioProdModel> getByScenarioId(int scenarioId);
+    List<ScenarioProdModel> getByScenarioIdAndProjectIdAndUrl(int scenarioId, String projectId, String url);
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neoTest.restapi.dao.ScenarioGherkinDAO;
 import com.neoTest.restapi.dao.SuggestionDAO;
 import com.neoTest.restapi.model.ScenarioGherkinModel;
+import com.neoTest.restapi.model.ScenarioProdModel;
 import com.neoTest.restapi.model.ScenarioTestModel;
 import com.neoTest.restapi.model.SuggestionModel;
 import com.neoTest.restapi.model.request.AiContentRequest;
@@ -66,12 +67,12 @@ public class AiService {
 		scenarioGherkinSave(testModelList.get(0), responseBody);
 	}
 
-	public void createProdScenarios(List<ScenarioTestModel> testModelList) throws JsonProcessingException {
-		if (CollectionUtils.isEmpty(testModelList)) {
+	public void createProdScenarios(List<ScenarioProdModel> prodModelList) throws JsonProcessingException {
+		if (CollectionUtils.isEmpty(prodModelList)) {
 			return;
 		}
 		StringBuilder sb = new StringBuilder();
-		testModelList.forEach(c-> {
+		prodModelList.forEach(c-> {
 			sb.append(c.getScenarioText());
 			sb.append(System.lineSeparator());
 		});
@@ -85,7 +86,7 @@ public class AiService {
 
 		//olusan gherkin ile compare senaryo
 		AiContentRequest compareAiRequest = new AiContentRequest();
-		compareAiRequest.setId(String.valueOf(testModelList.get(0).getScenarioId()));
+		compareAiRequest.setId(String.valueOf(prodModelList.get(0).getScenarioId()));
 		compareAiRequest.setContent(gherkinResult.getResult());
 		String compareAiJsonString = objectMapper.writeValueAsString(compareAiRequest);
 		String response = restCallerService.callRest(compareTestScenariosUrl, compareAiJsonString);
@@ -95,9 +96,10 @@ public class AiService {
 		SuggestionModel suggestionModel = new SuggestionModel();
 		suggestionModel.setDate(LocalDateTime.now());
 		suggestionModel.setId(seqGeneratorService.generateSequence(SuggestionModel.SEQUENCE_NAME));
-		suggestionModel.setProjectId(testModelList.get(0).getProjectId());
+		suggestionModel.setProjectId(prodModelList.get(0).getProjectId());
 		suggestionModel.setScenarioText(compareResponse.getContent());
 		suggestionModel.setIsAccepted(false);
+		suggestionModel.setScenarioId(prodModelList.get(0).getScenarioId());
 		suggestionDAO.save(suggestionModel);
 	}
 
