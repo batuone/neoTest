@@ -98,6 +98,7 @@ public class AiService {
 		suggestionModel.setScenarioText(compareResponse.getContent());
 		suggestionModel.setIsAccepted(false);
 		suggestionModel.setScenarioId(prodModelList.get(0).getScenarioId());
+		suggestionModel.setAnomaly(compareResponse.getAnomaly());
 		suggestionDAO.save(suggestionModel);
 	}
 

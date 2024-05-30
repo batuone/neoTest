@@ -21,5 +21,5 @@ public class SuggestionModel {
 	private String scenarioText;
 	private Boolean isAccepted;
 	private int scenarioId;
-
+	private String anomaly;
 }
