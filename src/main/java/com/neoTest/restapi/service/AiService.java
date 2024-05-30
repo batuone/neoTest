@@ -4,10 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neoTest.restapi.dao.ScenarioGherkinDAO;
 import com.neoTest.restapi.dao.SuggestionDAO;
-import com.neoTest.restapi.model.ScenarioGherkinModel;
-import com.neoTest.restapi.model.ScenarioProdModel;
-import com.neoTest.restapi.model.ScenarioTestModel;
-import com.neoTest.restapi.model.SuggestionModel;
+import com.neoTest.restapi.model.*;
 import com.neoTest.restapi.model.request.AiContentRequest;
 import com.neoTest.restapi.model.response.CompareAiResultResponse;
 import com.neoTest.restapi.model.response.GherkinResultResponse;
@@ -41,6 +38,7 @@ public class AiService {
 
 	public void scenarioGherkinSave(ScenarioTestModel testModel, String responseBody) {
 		ScenarioGherkinModel gModel = new ScenarioGherkinModel();
+		gModel.setId(seqGeneratorService.generateSequence(ScenarioGherkinModel.SEQUENCE_NAME));
 		gModel.setUrl(testModel.getUrl());
 		gModel.setScenarioId(testModel.getScenarioId());
 		gModel.setProjectId(testModel.getProjectId());
