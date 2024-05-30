@@ -43,7 +43,7 @@ public class SuggestionController {
 		return suggestionDAO.save(suggestionModel);
 	}
 
-	@PostMapping("/update")
+	@PostMapping("/accepted")
 	public void update(@RequestBody IdRequest idRequest) {
 		Optional<SuggestionModel> model = suggestionDAO.findById(idRequest.getId());
 		if(!model.isPresent())
